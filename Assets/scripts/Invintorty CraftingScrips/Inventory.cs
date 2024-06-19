@@ -9,6 +9,7 @@ public class Inventory : MonoBehaviour
 {
     [Header("UI")]
     public GameObject inventory;
+    public GameObject crafting;
     [SerializeField] private List<Slot> allInventorySlots = new List<Slot>();
     public List<Slot> inventorySlots = new List<Slot>();
     public List<Slot> hotbarSlots = new List<Slot>();
@@ -206,6 +207,8 @@ public class Inventory : MonoBehaviour
 
     private void toggleInventory(bool enable)
     {
+        crafting.SetActive(!enable);
+
         if (!enable) // Bug Fix 
         {
             foreach (Slot curSlot in allInventorySlots)
@@ -223,6 +226,10 @@ public class Inventory : MonoBehaviour
 
             chestSlotParent = null;
             chestSlots = null;
+        }
+        else if (enable && chestSlotParent != null)
+        {
+            crafting.SetActive(!enable);
         }
 
         inventory.SetActive(enable);
