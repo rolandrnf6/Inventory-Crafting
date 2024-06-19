@@ -41,6 +41,7 @@ public class Inventory : MonoBehaviour
 
     private List<Slot> chestSlots = new List<Slot>();
     private GameObject chestSlotParent;
+    private bool chestItOpen;
 
     public void Start()
     {
@@ -69,7 +70,10 @@ public class Inventory : MonoBehaviour
         itemRaycast(Input.GetMouseButtonDown(0));
 
         if (Input.GetKeyDown(KeyCode.E))
-            toggleInventory(!inventory.activeInHierarchy);
+        {
+            var isActive = inventory.activeInHierarchy;
+            toggleInventory(!isActive);
+        }
 
         if (inventory.activeInHierarchy && Input.GetMouseButtonDown(0))
         {
@@ -142,6 +146,7 @@ public class Inventory : MonoBehaviour
 
     private void openChest(Chest chest)
     {
+        chestItOpen = true;
         toggleInventory(true);
 
         chest.chestInstantiatedParent.SetActive(true);
@@ -221,15 +226,21 @@ public class Inventory : MonoBehaviour
             {
                 allInventorySlots.Remove(chestSlot);
             }
+            //crafting.SetActive(!enable);
 
             chestSlotParent.SetActive(false);
 
             chestSlotParent = null;
             chestSlots = null;
         }
-        else if (enable && chestSlotParent != null)
+        if (enable)
         {
-            crafting.SetActive(!enable);
+            if (chestItOpen)
+            {
+                chestItOpen = false;
+                crafting.SetActive(!enable);
+            }
+            else crafting.SetActive(true);
         }
 
         inventory.SetActive(enable);
