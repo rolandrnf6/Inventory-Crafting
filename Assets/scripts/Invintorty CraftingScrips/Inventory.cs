@@ -41,7 +41,7 @@ public class Inventory : MonoBehaviour
 
     private List<Slot> chestSlots = new List<Slot>();
     private GameObject chestSlotParent;
-    private bool chestItOpen;
+    private bool chestIsOpen;
 
     public void Start()
     {
@@ -57,12 +57,12 @@ public class Inventory : MonoBehaviour
 
         selectedItemImage.position = hotbarSlots[curHotbarIndex].transform.position;
 
-        //loadInventory();
+        loadInventory();
     }
 
     public void OnApplicationQuit()
     {
-        //saveInventory();
+        saveInventory();
     }
 
     public void Update()
@@ -146,7 +146,7 @@ public class Inventory : MonoBehaviour
 
     private void openChest(Chest chest)
     {
-        chestItOpen = true;
+        chestIsOpen = true;
         toggleInventory(true);
 
         chest.chestInstantiatedParent.SetActive(true);
@@ -235,9 +235,9 @@ public class Inventory : MonoBehaviour
         }
         if (enable)
         {
-            if (chestItOpen)
+            if (chestIsOpen)
             {
-                chestItOpen = false;
+                chestIsOpen = false;
                 crafting.SetActive(!enable);
             }
             else crafting.SetActive(true);
